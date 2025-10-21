@@ -1,259 +1,344 @@
 # User Management API
 
-A comprehensive REST API for user management with authentication, authorization, file upload, and profile management.
+A comprehensive REST API for user management with authentication, authorization, file upload, profile management, and admin functionalities. This API provides a complete solution for managing users in web applications with modern security practices.
 
-## Technologies Used
+## 🚀 Features
 
-- Node.js
-- Express.js
-- PostgreSQL
-- JWT (JSON Web Tokens)
-- Bcrypt (password hashing)
-- Cloudinary (file storage)
-- Joi (validation)
-- Helmet (security)
-- CORS (Cross-Origin Resource Sharing)
+- **User Authentication & Authorization**
 
-## Installation
+  - JWT-based authentication
+  - Role-based access control (user/admin)
+  - Secure password hashing with bcrypt
+  - Protected routes with middleware
 
-1. Clone the repository
-2. Install dependencies:
-```bash
-npm install
-```
-3. Create a `.env` file based on `.env.example`
-4. Set up your PostgreSQL database
-5. Run the application:
-```bash
-npm run dev
-```
+- **User Management**
 
-## API Documentation
+  - User registration with validation
+  - User login/logout
+  - Profile management (view, update)
+  - Avatar upload to Cloudinary
+  - Password update with current password validation
+  - User deletion (admin only)
 
-### Authentication Routes (`/api/auth`)
+- **Admin Management**
 
-#### Register User
-- **Endpoint**: `POST /api/auth/register`
-- **Description**: Register a new user
-- **Request Body**:
-  ```json
-  {
-    "username": "string (3-30 characters, alphanumeric)",
-    "email": "string (valid email format)",
-    "password": "string (min 8 characters)"
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "message": "User registered successfully",
-    "user": {
-      "id": "user_id",
-      "username": "username",
-      "email": "email",
-      "role": "user",
-      "createdAt": "timestamp"
-    }
-  }
-  ```
+  - Admin registration and login
+  - Admin CRUD operations
+  - Admin-specific endpoints
 
-#### Login User
-- **Endpoint**: `POST /api/auth/login`
-- **Description**: Login with email and password
-- **Request Body**:
-  ```json
-  {
-    "email": "string (valid email format)",
-    "password": "string"
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "message": "Login successful",
-    "token": "jwt_token",
-    "user": {
-      "id": "user_id",
-      "username": "username",
-      "email": "email",
-      "role": "user"
-    }
-  }
-  ```
+- **Security**
 
-### User Routes (`/api/users`)
+  - Input validation with Joi
+  - Helmet security headers
+  - CORS configuration
+  - Password strength requirements
 
-#### Get All Users (Admin only)
-- **Endpoint**: `GET /api/users`
-- **Description**: Get a list of all users (admin only)
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**:
-  ```json
-  [
-    {
-      "id": "user_id",
-      "username": "username",
-      "email": "email",
-      "role": "user",
-      "avatar_url": "url or null",
-      "created_at": "timestamp",
-      "updated_at": "timestamp"
-    }
-  ]
-  ```
+- **File Upload**
 
-#### Get User Profile
-- **Endpoint**: `GET /api/users/profile`
-- **Description**: Get current user's profile
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**:
-  ```json
-  {
-    "id": "user_id",
-    "username": "username",
-    "email": "email",
-    "role": "user",
-    "avatar_url": "url or null",
-    "created_at": "timestamp",
-    "updated_at": "timestamp"
-  }
-  ```
+  - Avatar uploads to Cloudinary
+  - File type validation
+  - Secure image handling
 
-#### Update User Profile
-- **Endpoint**: `PUT /api/users/profile`
-- **Description**: Update current user's profile
-- **Headers**: `Authorization: Bearer <token>`
-- **Request Body**:
-  ```json
-  {
-    "username": "string (optional)",
-    "email": "string (optional, valid email format)"
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "message": "Profile updated successfully",
-    "user": {
-      "id": "user_id",
-      "username": "username",
-      "email": "email",
-      "role": "user",
-      "avatar_url": "url or null",
-      "created_at": "timestamp",
-      "updated_at": "timestamp"
-    }
-  }
-  ```
+- **Pagination**
 
-#### Upload Avatar
-- **Endpoint**: `POST /api/users/avatar`
-- **Description**: Upload user avatar to Cloudinary
-- **Headers**: `Authorization: Bearer <token>`
-- **Form Data**: `file` (image file: jpeg, jpg, png)
-- **Response**:
-  ```json
-  {
-    "message": "Avatar uploaded successfully",
-    "avatar_url": "cloudinary_url",
-    "updated_at": "timestamp"
-  }
-  ```
+  - Built-in pagination for user lists
+  - Configurable page size and number
 
-#### Update Password
-- **Endpoint**: `PUT /api/users/password`
-- **Description**: Update user password
-- **Headers**: `Authorization: Bearer <token>`
-- **Request Body**:
-  ```json
-  {
-    "currentPassword": "string",
-    "newPassword": "string (min 6 characters)"
-  }
-  ```
-- **Response**:
-  ```json
-  {
-    "message": "Password updated successfully"
-  }
-  ```
+- **API Documentation**
+  - Complete Swagger UI documentation
+  - Interactive API testing interface
 
-#### Delete User (Admin only)
-- **Endpoint**: `DELETE /api/users/:id`
-- **Description**: Delete user by ID (admin only)
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**:
-  ```json
-  {
-    "message": "User deleted successfully"
-  }
-  ```
+## 🛠️ Technologies Used
 
-#### Delete Own Profile
-- **Endpoint**: `DELETE /api/users/profile`
-- **Description**: Delete current user's profile
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**:
-  ```json
-  {
-    "message": "Profile deleted successfully"
-  }
-  ```
+- **Backend**: Node.js, Express.js
+- **Database**: PostgreSQL
+- **Authentication**: JWT (JSON Web Tokens)
+- **Security**: Bcrypt (password hashing), Helmet, CORS
+- **Validation**: Joi
+- **File Storage**: Cloudinary
+- **Documentation**: Swagger UI
+- **File Upload**: Multer with Cloudinary storage
+- **Environment Management**: Dotenv
 
-## Error Handling
+## 📋 Prerequisites
 
-The API returns appropriate HTTP status codes and error messages:
+- Node.js (v18 or higher)
+- PostgreSQL database
+- Cloudinary account for file storage
 
-- `400`: Bad Request - validation errors or incorrect data
-- `401`: Unauthorized - invalid or missing token
-- `403`: Forbidden - insufficient permissions
-- `404`: Not Found - requested resource doesn't exist
-- `500`: Internal Server Error - unexpected server error
+## 🚀 Installation
 
-## Database Schema
+1. **Clone the repository**
 
-The application uses PostgreSQL with the following table structure:
+   ```bash
+   git clone <repository-url>
+   cd <repository-name>
+   ```
 
-```sql
-CREATE TABLE users (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  username VARCHAR(50) NOT NULL UNIQUE,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  password TEXT NOT NULL,
-  role VARCHAR(20) NOT NULL DEFAULT 'user',
-  avatar_url TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-);
-```
+2. **Install dependencies**
 
-## Security Features
+   ```bash
+   npm install
+   ```
 
-- JWT-based authentication
-- Input validation with Joi
-- Password hashing with bcrypt
-- Helmet security headers
-- CORS with limited origins
-- PostgreSQL connection security
-- File upload validation
+3. **Set up environment variables**
 
-## Environment Variables
+   - Copy `.env.example` to `.env`
+   - Update the values with your configuration
 
-Create a `.env` file with the following variables:
+4. **Database setup**
 
-```
-PORT=3000
+   - Create a PostgreSQL database
+   - Update the database credentials in your `.env` file
+   - The application will automatically create the required tables
+
+5. **Cloudinary setup**
+
+   - Sign up for a free Cloudinary account
+   - Add your Cloudinary credentials to the `.env` file
+
+6. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+7. **Access the API**
+   - API base URL: `http://localhost:5000/api`
+   - API documentation: `http://localhost:5000/api-docs`
+
+## 🔧 Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Server Configuration
+PORT=5000
 NODE_ENV=development
+
+# Database Configuration
 DB_HOST=localhost
 DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=your_db_password
-DB_NAME=user_management_api_db
-JWT_SECRET=your_very_secret_jwt_key
-JWT_EXPIRES_IN=1d
+DB_NAME=your_database_name
+
+# JWT Configuration
+JWT_SECRET=your_very_secret_jwt_key_here_must_be_very_long
+JWT_EXPIRES_IN=7d
+
+# Bcrypt Configuration
 BCRYPT_SALT_ROUNDS=12
+
+# Cloudinary Configuration
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
-CORS_ORIGIN=http://localhost:3000
-```# celerates-user-management-api
+
+# CORS Configuration
+CORS_ORIGIN=http://localhost:3000,http://localhost:3001
+```
+
+## 📚 API Documentation
+
+### Swagger UI
+
+Access interactive API documentation at `http://localhost:5000/api-docs`
+
+### API Endpoints
+
+#### Authentication (`/api/auth`)
+
+| Method | Endpoint    | Description           | Token Required |
+| ------ | ----------- | --------------------- | -------------- |
+| POST   | `/register` | Register a new user   | No             |
+| POST   | `/login`    | Login to user account | No             |
+
+**Request Example (Register):**
+
+```json
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "SecurePassword123"
+}
+```
+
+#### Users (`/api/users`)
+
+| Method | Endpoint    | Description                | Token Required | Role Required |
+| ------ | ----------- | -------------------------- | -------------- | ------------- |
+| GET    | `/`         | Get all users (admin only) | Yes            | Admin         |
+| GET    | `/profile`  | Get current user's profile | Yes            | -             |
+| PUT    | `/profile`  | Update user profile        | Yes            | -             |
+| POST   | `/avatar`   | Upload user avatar         | Yes            | -             |
+| PUT    | `/password` | Update user password       | Yes            | -             |
+| DELETE | `/:id`      | Delete user (admin only)   | Yes            | Admin         |
+
+**Request Example (Update Profile):**
+
+```json
+{
+  "username": "updated_username",
+  "email": "updated@example.com"
+}
+```
+
+#### Admin (`/api/admin`)
+
+| Method | Endpoint    | Description        | Token Required | Role Required |
+| ------ | ----------- | ------------------ | -------------- | ------------- |
+| POST   | `/register` | Register new admin | No             | -             |
+| POST   | `/login`    | Login as admin     | No             | -             |
+| GET    | `/`         | Get all admins     | Yes            | Admin         |
+| GET    | `/:id`      | Get admin by ID    | Yes            | Admin         |
+| PUT    | `/:id`      | Update admin       | Yes            | Admin         |
+| DELETE | `/:id`      | Delete admin       | Yes            | Admin         |
+
+## 📁 Project Structure
+
+```
+src/
+├── index.js                  # Main application entry point
+├── config/
+│   ├── db.js                 # Database configuration
+│   └── cloudinary.js         # Cloudinary configuration
+├── controllers/              # Request handlers
+│   ├── authController.js     # Authentication logic
+│   ├── userController.js     # User management logic
+│   └── adminController.js    # Admin management logic
+├── middleware/               # Custom middleware
+│   ├── auth.js               # Authentication middleware
+│   ├── validate.js           # Validation middleware
+│   ├── upload.js             # File upload middleware
+│   └── errorHandler.js       # Error handling middleware
+├── models/                   # Database models
+│   ├── userModel.js          # User data operations
+│   └── adminModel.js         # Admin data operations
+├── routes/                   # API routes
+│   ├── index.js              # Main route handler
+│   ├── authRoutes.js         # Authentication routes
+│   ├── userRoutes.js         # User routes
+│   └── adminRoutes.js        # Admin routes
+├── utils/                    # Utility functions
+│   ├── generateToken.js      # JWT token generation
+│   ├── hash.js               # Password hashing
+│   └── response.js           # Response formatting
+└── database/                 # Database setup
+```
+
+## 🔐 Security Features
+
+- **JWT Authentication**: Secure token-based authentication with configurable expiration
+- **Password Hashing**: Bcrypt with configurable salt rounds
+- **Input Validation**: Joi validation for all request parameters
+- **File Upload Security**: MIME type validation, file size limits
+- **CORS Protection**: Configurable origins
+- **Helmet**: Security headers for Express.js applications
+- **Rate Limiting**: Built-in protection against abuse (can be added)
+
+## 📁 File Upload
+
+The API supports avatar uploads with the following specifications:
+
+- Supported formats: JPEG, JPG, PNG
+- Automatic upload to Cloudinary
+- Secure storage with public ID based on user ID
+- Automatic resize and optimization
+
+## 🧪 Testing
+
+To run the API tests:
+
+```bash
+npm test
+```
+
+## 🚀 Deployment
+
+### Production Deployment
+
+1. Set `NODE_ENV=production` in your environment variables
+2. Use a process manager like PM2:
+   ```bash
+   npm install -g pm2
+   pm2 start src/index.js --name "user-management-api"
+   ```
+
+### Environment-Specific Considerations
+
+- Use secure JWT secrets in production
+- Configure proper database connection pooling
+- Set up SSL/TLS certificates
+- Configure proper CORS origins for production
+- Set up monitoring and logging
+
+## 📊 Response Format
+
+All API responses follow a consistent format:
+
+**Success Response:**
+
+```json
+{
+  "success": true,
+  "message": "Operation successful",
+  "data": {}
+}
+```
+
+**Error Response:**
+
+```json
+{
+  "success": false,
+  "message": "Error message",
+  "error": "Error details (optional)"
+}
+```
+
+**Paginated Response:**
+
+```json
+{
+  "success": true,
+  "message": "Data retrieved successfully",
+  "data": [...],
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 5,
+    "total_items": 50,
+    "items_per_page": 10
+  }
+}
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a pull request
+
+## 🐛 Issues
+
+If you encounter any issues or have feature requests, please open an issue in the repository with:
+
+- A clear description of the issue
+- Steps to reproduce
+- Expected behavior
+- Actual behavior
+- Environment information
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+For support, please open an issue in the repository or contact the maintainers.
+
+---
+
+**Made with ❤️ by Abdul Rohman Maulidhi**
