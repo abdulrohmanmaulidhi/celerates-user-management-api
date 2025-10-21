@@ -71,8 +71,8 @@ A comprehensive REST API for user management with authentication, authorization,
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
-   cd <repository-name>
+   git clone https://github.com/abdulrohmanmaulidhi/celerates-user-management-api.git
+   cd celerates-user-management-api
    ```
 
 2. **Install dependencies**
@@ -104,8 +104,8 @@ A comprehensive REST API for user management with authentication, authorization,
    ```
 
 7. **Access the API**
-   - API base URL: `http://localhost:5000/api`
-   - API documentation: `http://localhost:5000/api-docs`
+   - API base URL: `http://localhost:3580/api`
+   - API documentation: `http://localhost:3580/api-docs`
 
 ## 🔧 Environment Variables
 
@@ -113,7 +113,7 @@ Create a `.env` file in the root directory with the following variables:
 
 ```env
 # Server Configuration
-PORT=5000
+PORT=3580
 NODE_ENV=development
 
 # Database Configuration
@@ -136,14 +136,14 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
 # CORS Configuration
-CORS_ORIGIN=http://localhost:3000,http://localhost:3001
+CORS_ORIGIN=http://localhost:3580,
 ```
 
 ## 📚 API Documentation
 
 ### Swagger UI
 
-Access interactive API documentation at `http://localhost:5000/api-docs`
+Access interactive API documentation at `http://localhost:3580/api-docs`
 
 ### API Endpoints
 
@@ -245,14 +245,6 @@ The API supports avatar uploads with the following specifications:
 - Automatic upload to Cloudinary
 - Secure storage with public ID based on user ID
 - Automatic resize and optimization
-
-## 🧪 Testing
-
-To run the API tests:
-
-```bash
-npm test
-```
 
 ## 🚀 Deployment
 
